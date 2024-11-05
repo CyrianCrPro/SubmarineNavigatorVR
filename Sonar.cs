@@ -4,53 +4,58 @@ using UnityEngine;
 
 public class Sonar : MonoBehaviour
 {
-    // matériau pour pouvoir envoyer au sous marin, et du coup au shader, la position du sous marin
-    [SerializeField] Material sonarMat; // champ sérialisé, donc visible dans l'inspecteur mais privé
+    [SerializeField] Material sonarMat;
     SubmarineNavigator navigator;
 
-    // Start is called before the first frame update
+    // Variables pour suivre les positions sur le radar
+    Vector3 submarineLastPosition;
+    Vector3 submarineCurrentPosition;
+
     void Start()
     {
         navigator = FindObjectOfType<SubmarineNavigator>();
+        if (navigator == null)
+        {
+            Debug.LogError("SubmarineNavigator not found in the scene.");
+            return;
+        }
 
+        // Initialisation des positions
+        submarineCurrentPosition = navigator.GetVirtualPosition();
+        submarineLastPosition = submarineCurrentPosition;
+
+        // Lancement de la coroutine pour mettre à jour les positions
         StartCoroutine(UpdatePositions());
     }
 
-    // récupérer fréquence de scan, la vitesse (dans le shader)
-    // quand time*speed arrive au dela de scan freq => ça revient à 0 (faire time -= threshold) (pas = 0 sinon on perd des millisecondes, et donc pas synchro) 
-    void Update()
-    {
-        if ()
-        {
-            StartCoroutine(UpdatePositions());
-        }
-    }
-
-    //IEnumerator UpdatePositions()
-    //{
-    //    float scanFrequency = 1;
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(scanFrequency);
-    //        // update les positions
-    //        // navigator.submarinePosition ...
-    //        // passer la nextPos en pos, et mettre une nouvelle nextPos
-
-    //        //sonarMat.SetVector("_Position", submarineLastPosition); récupérer les positions de submarine navigator
-    //        //sonarMat.SetVector("_NextPosition", submarinePosition);
-    //    }
-    //}
-
     IEnumerator UpdatePositions()
     {
-        
-        yield return null;
-        // update les positions
-        // navigator.submarinePosition ...
-        // passer la nextPos en pos, et mettre une nouvelle nextPos
+        while (true)
+        {
+            // Récupérer la fréquence de scan depuis le matériau du sonar
+            float scanFrequency = sonarMat.GetFloat("_ScanFreq");
 
-        //sonarMat.SetVector("_Position", submarineLastPosition); récupérer les positions de submarine navigator
-        //sonarMat.SetVector("_NextPosition", submarinePosition);
+            // Attendre la durée définie par scanFrequency
+            yield return new WaitForSeconds(scanFrequency);
+
+            // Mise à jour de la dernière position
+            submarineLastPosition = submarineCurrentPosition;
+
+            // Mise à jour de la position actuelle du sous-marin sur le radar
+            submarineCurrentPosition = navigator.GetVirtualPosition();
+
+            // Transfert des positions au shader
+            sonarMat.SetVector("_Position", submarineLastPosition);
+            sonarMat.SetVector("_NextPosition", submarineCurrentPosition);
+
+            Debug.Log($"Position : {submarineCurrentPosition}");
+
+            // Récupération de la vitesse du sonar depuis le matériau
+            float sonarSpeed = sonarMat.GetFloat("_ScanSpeed");
+
+            // Mise à jour du temps de début du scan dans le shader pour synchronisation
+            sonarMat.SetFloat("_ScanStartTime", Time.time);
+
         }
     }
 }

@@ -4,30 +4,44 @@ using UnityEngine;
 
 public class SubmarineNavigator : MonoBehaviour
 {
-    public Vector3 centerPoint = new Vector3(0, 0, 0); // Le point central autour duquel le sous-marin tournera
+    [SerializeField] Material sonarMat;
+
+    // Variables pour la trajectoire circulaire
+    public Vector2 centerPoint = new Vector2(0, 0); // Centre de la trajectoire du sous-marin sur le radar
     public float radius = 5.0f; // Rayon de la trajectoire circulaire
     public float angularSpeed = 1.0f; // Vitesse angulaire (en radians par seconde)
 
+    // Position fictive pour le radar
+    private Vector3 virtualPosition;
     private float angle; // Angle actuel du sous-marin sur la trajectoire
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Initialisation de l'angle à 0
+        // Initialisation de l'angle et de la position virtuelle
         angle = 0;
+        virtualPosition = CalculateVirtualPosition();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Mise à jour de l'angle en fonction du temps et de la vitesse angulaire
         angle += angularSpeed * Time.deltaTime;
 
-        // Calcul de la position x et z du sous-marin (rotation dans le plan XZ)
-        float x = centerPoint.x + Mathf.Cos(angle) * radius;
-        float z = centerPoint.z + Mathf.Sin(angle) * radius;
+        // Calcul de la position fictive en suivant une trajectoire circulaire
+        virtualPosition = CalculateVirtualPosition();
+    }
 
-        // Mise à jour de la position du sous-marin avec y fixe
-        transform.position = new Vector3(x, centerPoint.y, z);
+    // Calcule la position fictive sur la trajectoire circulaire
+    private Vector3 CalculateVirtualPosition()
+    {
+        float x = centerPoint.x + Mathf.Cos(angle) * radius;
+        float y = centerPoint.y + Mathf.Sin(angle) * radius;
+        return new Vector3(x, y, transform.position.z);
+    }
+
+    // Méthode pour récupérer la position virtuelle pour le radar
+    public Vector3 GetVirtualPosition()
+    {
+        return virtualPosition;
     }
 }
