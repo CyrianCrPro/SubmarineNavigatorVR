@@ -7,7 +7,6 @@ public class Sonar : MonoBehaviour
     [SerializeField] Material sonarMat;
     SubmarineNavigator navigator;
 
-    // Variables pour suivre les positions sur le radar
     Vector3 submarineLastPosition;
     Vector3 submarineCurrentPosition;
 
@@ -20,11 +19,9 @@ public class Sonar : MonoBehaviour
             return;
         }
 
-        // Initialisation des positions
         submarineCurrentPosition = navigator.GetVirtualPosition();
         submarineLastPosition = submarineCurrentPosition;
 
-        // Lancement de la coroutine pour mettre à jour les positions
         StartCoroutine(UpdatePositions());
     }
 
@@ -32,30 +29,23 @@ public class Sonar : MonoBehaviour
     {
         while (true)
         {
-            // Récupérer la fréquence de scan depuis le matériau du sonar
             float scanFrequency = sonarMat.GetFloat("_ScanFreq");
+            float sonarSpeed = sonarMat.GetFloat("_ScanSpeed");
 
-            // Attendre la durée définie par scanFrequency
-            yield return new WaitForSeconds(scanFrequency);
-
-            // Mise à jour de la dernière position
             submarineLastPosition = submarineCurrentPosition;
-
-            // Mise à jour de la position actuelle du sous-marin sur le radar
             submarineCurrentPosition = navigator.GetVirtualPosition();
 
-            // Transfert des positions au shader
             sonarMat.SetVector("_Position", submarineLastPosition);
             sonarMat.SetVector("_NextPosition", submarineCurrentPosition);
 
             Debug.Log($"Position : {submarineCurrentPosition}");
 
-            // Récupération de la vitesse du sonar depuis le matériau
-            float sonarSpeed = sonarMat.GetFloat("_ScanSpeed");
-
-            // Mise à jour du temps de début du scan dans le shader pour synchronisation
+            // Réinitialiser le temps de scan pour le shader pour une synchronisation fluide
             sonarMat.SetFloat("_ScanStartTime", Time.time);
 
+            // Attendre une petite période avant la prochaine interpolation pour une mise à jour fluide
+            float interpolationTime = scanFrequency / sonarSpeed;
+            yield return new WaitForSeconds(interpolationTime);
         }
     }
 }
