@@ -76,6 +76,6 @@ Material:
     - _EdgeColor: {r: 0, g: 0.4811321, b: 0.10083908, a: 0}
     - _EmptyColor: {r: 0, g: 0, b: 0, a: 0}
     - _FullColor: {r: 0.012459949, g: 0.0754717, b: 0.025587406, a: 0}
-    - _NextPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Position: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _NextPosition: {r: 1.2050616, g: 0.5, b: 0, a: 0}
+    - _Position: {r: 0.029367656, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -57,11 +57,30 @@ public class ValveMovement : MonoBehaviour
             radius = Mathf.Clamp(totalRotation * 1f, -45f, 45f);
         }
 
-        if (buttonX && !buttonY)
+        //if (buttonX && !buttonY)
+        //{
+        //    RotateCrank(-1);
+        //}
+        //else if (buttonY && !buttonX)
+        //{
+        //    RotateCrank(1);
+        //}
+
+        //// rotation totale -> angle du sous-marin
+        //if (submarineNavigator != null)
+        //{
+        //    submarineNavigator.UpdateRadius(totalRotation);
+        //}
+
+
+        // Partie du code à (dé)-commenter si on n'utilise pas les manettes mais le numpad.
+        //////////////////////////
+        
+        if (Input.GetKey(KeyCode.Keypad4))
         {
             RotateCrank(-1);
         }
-        else if (buttonY && !buttonX)
+        else if (Input.GetKey(KeyCode.Keypad6))
         {
             RotateCrank(1);
         }
@@ -71,6 +90,7 @@ public class ValveMovement : MonoBehaviour
         {
             submarineNavigator.UpdateRadius(totalRotation);
         }
+        //////////////////////////
     }
 
     void RotateCrank(int direction)

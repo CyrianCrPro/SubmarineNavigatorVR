@@ -7357,7 +7357,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13257,12 +13257,12 @@ MonoBehaviour:
   sonarMat: {fileID: 2100000, guid: 6a61fcb9f009f8d4ba563ac01f4125bd, type: 2}
   mapTexture: {fileID: 2800000, guid: 7e531c5054d2d2a479c83118161577f5, type: 3}
   warningLight: {fileID: 1885185725}
-  screenShake: {fileID: 2020961531}
-  controllerShake: {fileID: 4937016004593956178}
   sparks: {fileID: 226776154}
   water: {fileID: 1560054101}
   leftHandController: {fileID: 759739608}
   rightHandController: {fileID: 1015234127}
+  screenShake: {fileID: 2020961531}
+  controllerShake: {fileID: 4937016004593956178}
   centerPoint: {x: 0.5, y: 0.5}
   radius: 0
   speed: 0
@@ -13609,8 +13609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1663f82e7126af4698fe54f8decc1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 100
   submarineNavigator: {fileID: 4937016004593956177}
+  rotationSpeed: 100
   isSelected: 0
 --- !u!54 &7661094437290311906
 Rigidbody:
