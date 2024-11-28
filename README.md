@@ -81,23 +81,27 @@ Les scripts de test sont regroupés dans le dossier `Ancien Scripts & Tests` et 
 
 ## (Autre idée de solution)
 ### - Levier : 2 points
-![Image : Points du Levier](./images/image.png)
+<img src="./images/image.png" alt="2 points" width="300"/>
+
 - Le point de rotation **Pc**
 - Le bout du levier **Pb**
 - **Pb** tourne autour de **Pc**
 
 ### - Plan du levier / axe de rotation
-![Image : Plan du levier](./images/image2.png)
+<img src="./images/image2.png" alt="Plan du Levier" width="300"/>
+
 - Un plan abstrait parallèle à l'axe de rotation, passant par le point de contact du levier, touché par le raycast.
 - Le controller détecte une collision, activant un booléen `inside` à `true` (ou `false` sinon).
 
 ### - Transposition du problème en 2D
-![Image : Projection en 2D](./images/image3.png)
+<img src="./images/image3.png" alt="Projection en 2D" width="300"/>
+
 - Le point **Pc** est projeté sur ce plan.
 - Un demi-cercle (ou une portion limitée) est imaginé en 2D sur ce plan, avec pour centre le projeté de **Pc** et le point de collision du controller.
 
 ### - Point de la manette sur le cercle
-![Image : Point sur le cercle](./images/image4.png)
+<img src="./images/image4.png" alt="Point sur le cercle" width="300"/>
+
 - À chaque frame, le projeté du point la manette sur le plan est calculé, ce qui donne un nouveau point.
 - Ce point est projeté sur le cercle, fournissant un angle de rotation.
 - On applique une transformation inverse pour ramener cet angle dans le repère du levier, obtenant un angle "local".
