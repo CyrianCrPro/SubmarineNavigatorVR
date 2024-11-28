@@ -134,3 +134,26 @@ Enfin, un composant **HingeJoint** sur le levier avec les paramètres suivants :
 - **Axis** : X:0 Y:0 Z:1 (pour pivoter autour de l'axe Z).
 - **Use Spring** : Activé avec un damper à 2 (optionnel).
 - **Use Limits** : Activé avec une plage d'angles de -45° à 45°.
+
+## SubmarineNavigator : Gestion des collisions et déplacement du sous-marin
+
+Le script SubmarineNavigator gère la simulation de navigation sous-marine en VR. Il effectue les tâches suivantes :
+
+1. Détection des collisions
+
+Le sous-marin navigue dans un espace défini par une texture 2D (mapTexture) représentant les murs (pixels noirs) et les passages (pixels blancs). La fonction IsCollidingWithWall() permet de détecter si la position actuelle du sous-marin entre en collision avec un mur.
+
+Étapes :
+
+- Conversion de la position virtuelle en coordonnées de texture.
+- Vérification si les coordonnées tombent sur un pixel noir.
+- Si oui, cela déclenche une collision : Un message d’avertissement est logué, le sous-marin inverse sa direction et son angle est ajusté pour éviter les collisions continues.
+
+2. Gestion de la trajectoire et vitesse
+
+Le sous-marin se déplace sur une trajectoire circulaire définie par un centre (centerPoint), un rayon (radius), et un angle dynamique :
+
+- L'angle est mis à jour selon la vitesse actuelle.
+- La position virtuelle est recalculée via CalculateVirtualPosition() en fonction de cet angle.
+
+Le rayon est ajusté via la méthode UpdateRadius(), en prenant en compte la rotation d'une manivelle (simulée ou via contrôleurs VR).
