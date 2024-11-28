@@ -141,7 +141,7 @@ Le script SubmarineNavigator gère la simulation de navigation sous-marine en VR
 
 1. Détection des collisions
 
-Le sous-marin navigue dans un espace défini par une texture 2D (mapTexture) représentant les murs (pixels noirs) et les passages (pixels blancs). La fonction IsCollidingWithWall() permet de détecter si la position actuelle du sous-marin entre en collision avec un mur.
+Le sous-marin navigue dans un espace défini par la texture 2D (mapTexture) représentant les murs (pixels noirs) et les passages (pixels blancs). La fonction IsCollidingWithWall() permet de détecter si la position actuelle du sous-marin entre en collision avec un mur.
 
 Étapes :
 
@@ -156,4 +156,4 @@ Le sous-marin se déplace sur une trajectoire circulaire définie par un centre 
 - L'angle est mis à jour selon la vitesse actuelle.
 - La position virtuelle est recalculée via CalculateVirtualPosition() en fonction de cet angle.
 
-Le rayon est ajusté via la méthode UpdateRadius(), en prenant en compte la rotation d'une manivelle (simulée ou via contrôleurs VR).
+Le rayon est ajusté via la méthode UpdateRadius() en prenant en compte la rotation de la manivelle.
